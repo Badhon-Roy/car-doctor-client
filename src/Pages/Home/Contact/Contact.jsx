@@ -3,7 +3,7 @@
 const Contact = () => {
     return (
         <div className="bg-black px-16 py-24 rounded-xl text-white">
-            <div className="flex justify-between items-center">
+            <div className="md:flex gap-4 justify-between items-center">
                 <div className="flex items-center gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none">
                         <g clipPath="url(#clip0_13_1569)">
