@@ -1,8 +1,31 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from '../../assets/logo.svg';
+import swal from "sweetalert";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 
 const Navbar = () => {
+    const {user , logOut} = useContext(AuthContext)
+    const handleSignOut = () => {
+        swal({
+            title: "Are you sure you want to log out?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                logOut()
+                .then(() => {
+                    swal("Log Out", "successful", "success")
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+            }
+          });
+    }
     return (
         <div className="navbar bg-purple-500">
             <div className="navbar-start">
@@ -20,12 +43,12 @@ const Navbar = () => {
                         Home
                     </NavLink></li>
                     <li><NavLink
-                        to="/login"
+                        to="/myBookings"
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "active" : ""
                         }
                     >
-                        Login
+                        My Bookings
                     </NavLink></li>
                     </ul>
                 </div>
@@ -44,17 +67,47 @@ const Navbar = () => {
                         Home
                     </NavLink></li>
                     <li><NavLink
-                        to="/login"
+                        to="/myBookings"
                         className={({ isActive, isPending }) =>
                             isPending ? "pending" : isActive ? "active" : ""
                         }
                     >
-                        Login
+                        My Bookings
                     </NavLink></li>
                 </ul>
             </div>
             <div className="navbar-end">
-                <a className="btn text-xl">Button</a>
+            <ul className="text-xl flex items-center font-bold">
+                        {
+                            user ? <div className="dropdown dropdown-end">
+                                <label tabIndex={0} >
+                                    <div className="avatar cursor-pointer">
+                                        <div className="w-11 rounded-full ring ring-purple-500 ring-offset-base-100 ring-offset-2">
+                                            {
+                                                user?.photoURL ?
+                                                    <img src={user.photoURL} /> :
+                                                    <img className="bg-purple-500 text-white" />
+                                            }
+                                        </div>
+                                    </div>
+                                </label>
+                                <ul tabIndex={0} className="dropdown-content z-[2] menu p-3 shadow space-y-2 min-w-[150px] bg-base-100 rounded-box px-4">
+                                    <li>{user.displayName}</li>
+                                    <li >{user.email}</li>
+                                    <hr />
+                                    <button onClick={handleSignOut} className="text-xl border-black border-2 p-1 bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 rounded-lg text-left">Log out</button>
+                                </ul>
+                            </div> :
+                                <li><NavLink
+                                    to="/login"
+                                    className={({ isActive, isPending }) =>
+                                        isPending ? "pending" : isActive ? "bg-purple-500 text-white rounded px-4 py-2" : ""
+                                    }
+                                >
+                                    Login
+                                </NavLink></li>
+                        }
+                    </ul>
             </div>
         </div>
     );

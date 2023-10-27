@@ -9,8 +9,11 @@ import MainLayout from './Layout/MainLayout';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import SignUp from './Pages/SignUp/SignUp';
-import AuthProvider from './Provider/AuthProvider';
 import ServicesDetails from './Pages/ServicesDetails/ServicesDetails';
+import CheckOut from './Pages/CheckOut/CheckOut';
+import MyBookings from './Pages/MyBookings/MyBookings';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+import AuthProvider from './Provider/AuthProvider';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,8 +33,17 @@ const router = createBrowserRouter([
       },
       {
         path : "/service/:id",
-        element : <ServicesDetails></ServicesDetails>,
+        element : <PrivateRoute><ServicesDetails></ServicesDetails></PrivateRoute>,
         loader : ({params}) => fetch(`http://localhost:5000/services/${params.id}`)
+      },
+      {
+        path : "/checkout/:id",
+        element : <CheckOut></CheckOut>,
+        loader : ({params}) => fetch(`http://localhost:5000/services/${params.id}`)
+      },
+      {
+        path : "/myBookings",
+        element : <PrivateRoute><MyBookings></MyBookings></PrivateRoute>
       }
     ]
   },
