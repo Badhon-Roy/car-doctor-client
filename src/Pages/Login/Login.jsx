@@ -17,9 +17,14 @@ const Login = () => {
         signIn(email, password)
             .then(res => {
                 console.log(res.user);
-                navigate(location?.state ? location.state : '/')
+                // const user = { email};
+                // navigate(location?.state ? location.state : '/')
                 swal("Log in", "successful", "success")
-                e.target.reset();
+                // axios.post('http://localhost:5000/jwt' , user, {withCredentials: true})
+                // .then(res =>{
+                //     console.log(res.data);
+                // })
+                // e.target.reset();
             })
             .catch(() => {
                 setErrorMassage('login failed please check your email and password and try again');
